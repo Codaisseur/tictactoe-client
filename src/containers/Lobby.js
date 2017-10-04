@@ -24,26 +24,18 @@ class Lobby extends PureComponent {
     const { push } = this.props
 
     return () => {
-      push(`/games/${gameId}`)
+      push(`/play/${gameId}`)
     }
-  }
-
-  isJoinable(game) {
-    if (game.started) return false
-    return !!!this.isPlayer(game)
   }
 
   isPlayer(game) {
-    if (game.players instanceof Object) {
-      return game.players._id === this.props.currentUser._id
-    }
     return game.players
       .map((p) => (p._id))
       .includes(this.props.currentUser._id)
   }
 
   renderGame(game, index) {
-    let ActionIcon = this.isJoinable(game) ? JoinGameIcon : WatchGameIcon
+    let ActionIcon = game.isJoinable ? JoinGameIcon : WatchGameIcon
     if (this.isPlayer(game)) ActionIcon = game.isPlayable ? PlayGameIcon : WaitingIcon
 
     return (

@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import getCurrentGame from '../actions/games/get'
 import fetchGames from '../actions/games/fetch'
 import subscribeToGames from '../actions/games/subscribe'
+import JoinDialog from '../components/games/JoinDialog'
 
 class Game extends PureComponent {
   componentWillMount() {
     const { game, fetchGames, getCurrentGame, subscribeToGames, subscribed } = this.props
-    const { gameId } = this.props.params
+    const { gameId } = this.props.match.params
 
     if (!game) fetchGames()
     getCurrentGame(gameId)
@@ -21,8 +22,9 @@ class Game extends PureComponent {
 
     return (
       <div className="Game">
-        <h1>Game!</h1>
+        <h1>{game.title}</h1>
         <p>This is where your game goes...</p>
+        <JoinDialog game={game} />
       </div>
     )
   }
